@@ -83,7 +83,10 @@ function Div(el)
    if #output_children > 0 then
       local wrapper_div = pandoc.Div(output_children, { class = container_classes })
       table.insert(new_content, wrapper_div)
-      assert((1 + #wrapper_div.content) == #el.content, "Unexpected length mismatch between old and new output content")
+      assert(
+         ((cell_code == nil and 0 or 1) + #wrapper_div.content) == #el.content,
+         "Unexpected length mismatch between old and new output content"
+      )
    else
       assert(#new_content == #el.content, "Unexpected length mismatch between old and new output content")
    end
