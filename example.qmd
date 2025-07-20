@@ -8,7 +8,7 @@ filters:
 
 This document demonstrates the Quarto `wrap-cell-outputs` filter extension.
 
-When Quarto renders to HTML, the cell's code block and `stdout` & `stderr` outputs
+When Quarto renders an input to HTML, the cell's code block and `stdout` & `stderr` outputs
 are translated to sibling `div`s.
 Unfortunately, input formats like Jupyter notebooks can have heavily interleaved `stdout` and `stderr` outputs,
 resulting in a long list of cell output `div`s.
@@ -20,15 +20,85 @@ By default, the `div` is given the `cell-output-container` class, which comes wi
 
 ## Usage
 
-When this filter is applied with the default settings,
-all cell outputs are automatically wrapped in a `div` with the `cell-output-container` class.
+In your `_quarto.yml` file or document's YAML header, add `wrap-cell-outputs` to your `filters`:
+
+```yaml
+filters:
+  - wrap-cell-outputs
+```
+
+When this filter is used with the default configuration,
+all cell outputs are automatically wrapped in a `div` with the `cell-output-container` class
+and default styles applied.
 
 ```{python}
 import sys
 
 for i in range(0, 10):
-    print(f"Output stdout {i}")
+    print(f"Output stdout {i} " * 10)
 
 for i in range(0, 10):
-    print(f"Output stderr {i}", file=sys.stderr)
+    print(f"Output stderr {i} " * 10, file=sys.stderr)
+```
+
+### Document-Level Options
+
+All document-level options are specified under the `wrap-cell-outputs` key.
+The defaults are shown below with a description for each option:
+
+```yaml
+wrap-cell-outputs:
+  # The class(es) to apply to the container divs.
+  #
+  # Multiple classes should be specified as a single string with the classes delimited by spaces,
+  # the same way classes are specified in HTML.
+  - container-classes: "cell-output-container"
+
+  # Whether to apply default styles for the `cell-output-container`.
+  #
+  # The default styles add a scrollbar for overflowing content and
+  # undo some of Quarto's default styles for cell output `pre` and `code` elements.
+  - apply-default-styles: true
+
+  # Whether cell outputs are wrapped by default.
+  #
+  # The default behaviour makes the filter "opt-out"; i.e., all cell outputs are wrapped —
+  # if you want to exclude a cell's outputs from the filter, you need to specify `wrap-outputs: false`
+  # in the per-cell options.
+  #
+  # Setting this to `false` makes the filter "opt-in"; i.e., cell outputs are not wrapped by default
+  # and you need to specify `wrap-outputs: true` if you want to wrap a specific cell's outputs.
+  - wrap-default: true
+```
+
+### Per-Cell Options
+
+To control whether the filter is applied to a specific cell,
+use the `wrap-outputs` option.
+For example, to disable the filter for a cell (when `wrap-default: true` is specified in the document-level options):
+
+````markdown
+```{{python}}
+#| wrap-outputs: false
+
+import sys
+
+for i in range(0, 10):
+    print(f"Output stdout {i} " * 10)
+
+for i in range(0, 10):
+    print(f"Output stderr {i} " * 10, file=sys.stderr)
+```
+````
+```{python}
+#| echo: false
+#| wrap-outputs: false
+
+import sys
+
+for i in range(0, 10):
+    print(f"Output stdout {i} " * 10)
+
+for i in range(0, 10):
+    print(f"Output stderr {i} " * 10, file=sys.stderr)
 ```
