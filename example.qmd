@@ -1,0 +1,34 @@
+---
+title: "Wrap Cell Outputs Example"
+filters:
+  - wrap-cell-outputs
+---
+
+## About
+
+This document demonstrates the Quarto `wrap-cell-outputs` filter extension.
+
+When Quarto renders to HTML, the cell's code block and `stdout` & `stderr` outputs
+are translated to sibling `div`s.
+Unfortunately, input formats like Jupyter notebooks can have heavily interleaved `stdout` and `stderr` outputs,
+resulting in a long list of cell output `div`s.
+Because these `div`s are siblings of the code cell's `div`,
+they cannot be scrolled or collapsed as a single unit.
+
+This filter resolves that problem by wrapping cell outputs into a single `div` parent element.
+By default, the `div` is given the `cell-output-container` class, which comes with a preset style.
+
+## Usage
+
+When this filter is applied with the default settings,
+all cell outputs are automatically wrapped in a `div` with the `cell-output-container` class.
+
+```{python}
+import sys
+
+for i in range(0, 10):
+    print(f"Output stdout {i}")
+
+for i in range(0, 10):
+    print(f"Output stderr {i}", file=sys.stderr)
+```
