@@ -1,3 +1,4 @@
+local wrap_default = true
 local container_classes = "cell-output-container"
 
 function Meta(meta)
@@ -13,6 +14,11 @@ function Meta(meta)
             "Malformed value for `container-classes`"
          )
          container_classes = config["container-classes"][1].text
+      end
+
+      if config["wrap-default"] ~= nil then
+         assert(type(config["wrap-default"]) == "boolean", "Malformed value for `wrap-default`")
+         wrap_default = config["wrap-default"]
       end
 
       if config["apply-default-styles"] ~= nil then
@@ -34,6 +40,16 @@ end
 
 function Div(el)
    if not el.classes:includes("cell") then
+      return el
+   end
+
+   -- Check whether to wrap the outputs of the current cell.
+   local should_wrap = wrap_default
+   if el.attributes["wrap-outputs"] then
+      should_wrap = el.attributes["wrap-outputs"] == "true"
+   end
+
+   if not should_wrap then
       return el
    end
 
