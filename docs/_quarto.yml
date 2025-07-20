@@ -8,8 +8,16 @@ website:
   repo-url: "https://github.com/dixslyf/quarto-group-html-cell-outputs"
   repo-actions: [issue]
   code-links: repo
+  page-navigation: true
   sidebar:
     search: true
+    contents:
+      - text: "Home"
+        href: index.qmd
+      - text: "Getting Started"
+        href: getting-started.qmd
+      - text: "Configuration"
+        href: configuration.qmd
 
 filters:
   - group-html-cell-outputs
