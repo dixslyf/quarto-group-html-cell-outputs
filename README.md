@@ -1,4 +1,4 @@
-# Wrap Cell Outputs Extension For Quarto
+# `group-html-cell-outputs` Extension For Quarto
 
 _TODO_: Add a short description of your extension.
 
@@ -7,7 +7,7 @@ _TODO_: Add a short description of your extension.
 _TODO_: Replace the `<github-organization>` with your GitHub organization.
 
 ```bash
-quarto add <github-organization>/wrap-cell-outputs
+quarto add <github-organization>/group-html-cell-outputs
 ```
 
 This will install the extension under the `_extensions` subdirectory.

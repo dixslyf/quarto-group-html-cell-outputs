@@ -1,7 +1,7 @@
 ---
-title: "Wrap Cell Outputs Example"
+title: "`group-html-cell-outputs`"
 filters:
-  - wrap-cell-outputs
+  - group-html-cell-outputs
 format:
   html:
     css: example-styles.css
@@ -9,7 +9,7 @@ format:
 
 ## About
 
-This document demonstrates the Quarto `wrap-cell-outputs` filter extension.
+This document demonstrates the Quarto `group-html-cell-outputs` filter extension.
 
 When Quarto renders an input to HTML, the cell's code block and `stdout` & `stderr` outputs
 are translated to sibling `div`s.
@@ -18,21 +18,21 @@ resulting in a long list of cell output `div`s.
 Because these `div`s are siblings of the code cell's `div`,
 they cannot be scrolled or collapsed as a single unit.
 
-This filter resolves that problem by wrapping cell outputs into a single `div` parent element.
-By default, the `div` is given the `cell-output-container` class, which comes with a preset style.
+This filter resolves that problem by wrapping cell outputs with a single `div` parent element.
+By default, the `div` is given the `cell-output-container` class, which comes with preset styles.
 
 ## Usage
 
-In your `_quarto.yml` file or document's YAML header, add `wrap-cell-outputs` to your `filters`:
+In your `_quarto.yml` file or document's YAML header, add `group-html-cell-outputs` to your `filters`:
 
 ```yaml
 filters:
-  - wrap-cell-outputs
+  - group-html-cell-outputs
 ```
 
 When this filter is used with the default configuration,
-all cell outputs are automatically wrapped in a `div` with the `cell-output-container` class
-and default styles applied.
+all outputs of a cell are automatically wrapped in a shared parent `div`
+with the `cell-output-container` class and default styles applied.
 
 ```{python}
 import sys
@@ -53,11 +53,11 @@ and `output-container-classes` in [_Per-Cell Options_](#per-cell-options)).
 
 ### Document-Level Options
 
-All document-level options are specified under the `wrap-cell-outputs` key.
+All document-level options are specified under the `group-html-cell-outputs` key.
 The defaults are shown below with a description for each option:
 
 ```yaml
-wrap-cell-outputs:
+group-html-cell-outputs:
   # The class(es) to apply to the container divs.
   #
   # Multiple classes should be specified as a single string with the classes delimited by spaces,
@@ -70,28 +70,28 @@ wrap-cell-outputs:
   # undo some of Quarto's default styles for cell output `pre` and `code` elements.
   - apply-default-styles: true
 
-  # Whether cell outputs are wrapped by default.
+  # Whether to group cell outputs by default.
   #
-  # The default behaviour makes the filter "opt-out"; i.e., all cell outputs are wrapped —
-  # if you want to exclude a cell's outputs from the filter, you need to specify `wrap-outputs: false`
+  # Setting this to `true` makes the filter "opt-out"; i.e., all cells have their outputs grouped —
+  # if you want to exclude a cell's outputs from the filter, you need to specify `group-outputs: false`
   # in the per-cell options.
   #
-  # Setting this to `false` makes the filter "opt-in"; i.e., cell outputs are not wrapped by default
-  # and you need to specify `wrap-outputs: true` if you want to wrap a specific cell's outputs.
-  - wrap-default: true
+  # Setting this to `false` makes the filter "opt-in"; i.e., cell outputs are not grouped by default
+  # and you need to specify `group-outputs: true` if you want to group a specific cell's outputs.
+  - group-by-default: true
 ```
 
 ### Per-Cell Options
 
 To control whether the filter is applied to a specific cell,
-use the `wrap-outputs` option.
-For example, to disable the filter for a cell (when `wrap-default: true` is specified in the document-level options):
+use the `group-outputs` option.
+For example, to disable the filter for a cell (when `group-by-default: true` is specified in the document-level options):
 
 <!-- Unfortunately, seems like Quarto's `echo: fenced` is bugged and removes keys it doesn't know,
 so we have to resort to this duplication. -->
 ````markdown
 ```{{python}}
-#| wrap-outputs: false
+#| group-outputs: false
 
 import sys
 
@@ -104,7 +104,7 @@ for i in range(0, 10):
 ````
 ```{python}
 #| echo: false
-#| wrap-outputs: false
+#| group-outputs: false
 
 import sys
 

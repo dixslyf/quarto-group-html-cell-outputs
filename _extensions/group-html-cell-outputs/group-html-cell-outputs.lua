@@ -1,11 +1,11 @@
-local wrap_default = true
+local group_by_default = true
 local default_container_classes = "cell-output-container"
 
 function Meta(meta)
    local apply_default_styles = true
 
-   if meta["wrap-cell-outputs"] then
-      local config = meta["wrap-cell-outputs"]
+   if meta["group-html-cell-outputs"] then
+      local config = meta["group-html-cell-outputs"]
 
       -- Parse configuration.
       if config["default-container-classes"] then
@@ -16,9 +16,9 @@ function Meta(meta)
          default_container_classes = config["default-container-classes"][1].text
       end
 
-      if config["wrap-default"] ~= nil then
-         assert(type(config["wrap-default"]) == "boolean", "Malformed value for `wrap-default`")
-         wrap_default = config["wrap-default"]
+      if config["group-by-default"] ~= nil then
+         assert(type(config["group-by-default"]) == "boolean", "Malformed value for `group-by-default`")
+         group_by_default = config["group-by-default"]
       end
 
       if config["apply-default-styles"] ~= nil then
@@ -29,9 +29,9 @@ function Meta(meta)
 
    if apply_default_styles then
       quarto.doc.add_html_dependency({
-         name = "wrap-cell-outputs",
+         name = "group-html-cell-outputs",
          version = "0.1.0",
-         stylesheets = { "styles/wrap-cell-outputs.css" },
+         stylesheets = { "styles/default-cell-output-container.css" },
       })
    end
 
@@ -43,13 +43,13 @@ function Div(el)
       return el
    end
 
-   -- Check whether to wrap the outputs of the current cell.
-   local should_wrap = wrap_default
-   if el.attributes["wrap-outputs"] then
-      should_wrap = el.attributes["wrap-outputs"] == "true"
+   -- Check whether to group the outputs of the current cell.
+   local should_group = group_by_default
+   if el.attributes["group-outputs"] then
+      should_group = el.attributes["group-outputs"] == "true"
    end
 
-   if not should_wrap then
+   if not should_group then
       return el
    end
 
@@ -81,10 +81,10 @@ function Div(el)
    end
 
    if #output_children > 0 then
-      local wrapper_div = pandoc.Div(output_children, { class = container_classes })
-      table.insert(new_content, wrapper_div)
+      local container_div = pandoc.Div(output_children, { class = container_classes })
+      table.insert(new_content, container_div)
       assert(
-         ((cell_code == nil and 0 or 1) + #wrapper_div.content) == #el.content,
+         ((cell_code == nil and 0 or 1) + #container_div.content) == #el.content,
          "Unexpected length mismatch between old and new output content"
       )
    else
