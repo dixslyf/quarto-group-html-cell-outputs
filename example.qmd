@@ -116,12 +116,13 @@ for i in range(0, 10):
 ```
 
 You can also configure the classes applied to the output container with `output-container-classes`.
-In the example below, we apply the `bg-blue` class (defined in a separate CSS file and linked to this page)
+In the example below, we apply the `custom-output-container` class (defined in a separate CSS file and linked to this page),
+which adds a border,
 to the output container.
 
 ````markdown
 ```{{python}}
-#| output-container-classes: "bg-blue"
+#| output-container-classes: "custom-output-container"
 
 import sys
 
@@ -134,7 +135,7 @@ for i in range(0, 10):
 ````
 ```{python}
 #| echo: false
-#| output-container-classes: "bg-blue"
+#| output-container-classes: "custom-output-container"
 
 import sys
 
@@ -146,3 +147,5 @@ for i in range(0, 10):
 ```
 
 Note that `output-container-classes` overrides the default classes specified in the document-level `default-container-classes`.
+Hence, the child `stdout` and `stderr` `div`s retain their original styling (most notably, the horizontal scrollbars)
+that would otherwise have been adjusted by the default `cell-output-container` styling.
