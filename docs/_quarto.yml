@@ -1,0 +1,23 @@
+project:
+  type: website
+
+website:
+  title: "Group HTML Cell Outputs (Quarto Extension)"
+  description: "Quarto filter extension for grouping cell outputs in a wrapper div when rendering to HTML."
+  site-url: "https://dixslyf.github.io/quarto-group-html-cell-outputs"
+  repo-url: "https://github.com/dixslyf/quarto-group-html-cell-outputs"
+  repo-actions: [issue]
+  code-links: repo
+  sidebar:
+    search: true
+
+filters:
+  - group-html-cell-outputs
+
+format:
+  html:
+    toc: true
+    toc-location: left
+    grid:
+      body-width: "840px"
+    css: styles.css
