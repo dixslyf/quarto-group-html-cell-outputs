@@ -1,0 +1,92 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "group-html-cell-outputs (Quarto Extension)",
+    "section": "",
+    "text": "The group-html-cell-outputs Quarto extension adds a filter to group the outputs of a cell by wrapping them with a parent div when rendering to HTML.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#about",
+    "href": "index.html#about",
+    "title": "group-html-cell-outputs (Quarto Extension)",
+    "section": "",
+    "text": "The group-html-cell-outputs Quarto extension adds a filter to group the outputs of a cell by wrapping them with a parent div when rendering to HTML.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#motivation",
+    "href": "index.html#motivation",
+    "title": "group-html-cell-outputs (Quarto Extension)",
+    "section": "Motivation",
+    "text": "Motivation\nWhen Quarto renders a code cell to HTML, it creates separate div elements for the code block, standard output (stdout) and error output (stderr). These output divs are rendered as direct siblings of the code block div. For certain input formats (notably, Jupyter notebooks), there can be multiple, interleaved stdout and stderr divs.\nThe rendering behaviour described above presents two main issues:\n\nEach output div has its own independent styling. Hence, for long outputs, there may be multiple, separate scrollbars for individual output blocks. This looks awkward and makes the cell output hard to read.\nSince outputs are fragmented across different sibling divs, it is difficult to treat them as a single unit. For example, you cannot easily scroll or collapse all cell outputs together. Furthermore, when you have an extremely long list of such divs, it becomes difficult to limit their max height and show a scrollbar without accidentally hiding part of the code block.\n\nThis filter resolves these issues by wrapping the outputs of a cell with a parent div element. By default, the parent div is given the cell-output-container class.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "configuration.html",
+    "href": "configuration.html",
+    "title": "Configuration",
+    "section": "",
+    "text": "All document-level options are specified under the group-html-cell-outputs key. The defaults are shown below:\ngroup-html-cell-outputs:\n  - default-container-classes: \"cell-output-container\"\n  - apply-default-styles: true\n  - group-by-default: true\n\n\nType: string\nThe class(es) to apply to the container divs.\nMultiple classes should be specified as a single string with the classes delimited by spaces, the same way classes are specified in HTML.\n\n\n\nType: boolean\nWhether to apply default styles for the cell-output-container.\nThe default styles add padding and margins, show a scrollbar for overflowing content and undo some of Quarto’s default styles for cell output pre and code elements so that the output container looks a like a single block.\n\n\n\nType: boolean\nWhether to group cell outputs by default.\nSetting this to true makes the filter “opt-out”; i.e., all cells have their outputs grouped by default — if you want to exclude a cell’s outputs from the filter, you need to specify group-outputs: false in its per-cell options.\nSetting this to false makes the filter “opt-in”; i.e., cell outputs are not grouped by default and you need to specify group-outputs: true if you want to group a specific cell’s outputs.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "configuration.html#document-level-options",
+    "href": "configuration.html#document-level-options",
+    "title": "Configuration",
+    "section": "",
+    "text": "All document-level options are specified under the group-html-cell-outputs key. The defaults are shown below:\ngroup-html-cell-outputs:\n  - default-container-classes: \"cell-output-container\"\n  - apply-default-styles: true\n  - group-by-default: true\n\n\nType: string\nThe class(es) to apply to the container divs.\nMultiple classes should be specified as a single string with the classes delimited by spaces, the same way classes are specified in HTML.\n\n\n\nType: boolean\nWhether to apply default styles for the cell-output-container.\nThe default styles add padding and margins, show a scrollbar for overflowing content and undo some of Quarto’s default styles for cell output pre and code elements so that the output container looks a like a single block.\n\n\n\nType: boolean\nWhether to group cell outputs by default.\nSetting this to true makes the filter “opt-out”; i.e., all cells have their outputs grouped by default — if you want to exclude a cell’s outputs from the filter, you need to specify group-outputs: false in its per-cell options.\nSetting this to false makes the filter “opt-in”; i.e., cell outputs are not grouped by default and you need to specify group-outputs: true if you want to group a specific cell’s outputs.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "configuration.html#per-cell-options",
+    "href": "configuration.html#per-cell-options",
+    "title": "Configuration",
+    "section": "Per-Cell Options",
+    "text": "Per-Cell Options\n\ngroup-outputs\nType: boolean\nWhether the cell’s outputs should be grouped.\nFor example, to disable the filter for a cell (when group-by-default: true is specified in the document-level options):\n\n```{python}\n#| group-outputs: false\n\nimport sys\n\nfor i in range(0, 3):\n    print(f\"Output stdout {i} \" * 10)\n\nfor i in range(0, 3):\n    print(f\"Output stderr {i} \" * 10, file=sys.stderr)\n```\n\n\nOutput stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 \nOutput stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 \nOutput stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 \n\n\nOutput stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 \nOutput stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 \nOutput stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 \n\n\n\n\noutput-container-classes\nType: string\nThe classes to apply to the output container. Overrides the document-level default-container-classes option.\nIn the example below, we apply the custom-output-container class, which adds a border, to the output container.\n/* styles.css */\n.custom-output-container {\n    border: 2px solid;\n}\n```{python}\n#| output-container-classes: \"custom-output-container\"\n\nimport sys\n\nfor i in range(0, 3):\n    print(f\"Output stdout {i} \" * 10)\n\nfor i in range(0, 3):\n    print(f\"Output stderr {i} \" * 10, file=sys.stderr)\n```\n\n\n\nOutput stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 \nOutput stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 \nOutput stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 \n\n\nOutput stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 \nOutput stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 \nOutput stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 \n\n\n\nNote that output-container-classes overrides the default classes specified in the document-level default-container-classes. Hence, the child output divs retain their original styling (most notably, the padding, margins and horizontal scrollbars) that would otherwise have been adjusted by the default cell-output-container styling.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "To install the group-html-cell-outputs extension for a project, run the following in your shell:\nquarto add dixslyf/quarto-group-html-cell-outputs\nSee Quarto’s documentation on Managing Extensions for more information.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#installation",
+    "href": "getting-started.html#installation",
+    "title": "Getting Started",
+    "section": "",
+    "text": "To install the group-html-cell-outputs extension for a project, run the following in your shell:\nquarto add dixslyf/quarto-group-html-cell-outputs\nSee Quarto’s documentation on Managing Extensions for more information.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#basic-usage",
+    "href": "getting-started.html#basic-usage",
+    "title": "Getting Started",
+    "section": "Basic Usage",
+    "text": "Basic Usage\nIn your _quarto.yml file or document’s YAML header, add group-html-cell-outputs to filters:\nfilters:\n  - group-html-cell-outputs\nWhen this filter is used with the default configuration, all outputs of a cell are automatically wrapped in a shared parent div with the cell-output-container class. Some default styles are applied to cell-output-container to adjust padding and prevent each child output element from having its own scrollbar so that the output container looks like a single output block.\nHere is an example with long outputs:\n\nimport sys\n\nfor i in range(0, 3):\n    print(f\"Output stdout {i} \" * 10)\n\nfor i in range(0, 3):\n    print(f\"Output stderr {i} \" * 10, file=sys.stderr)\n\n\nOutput stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 Output stdout 0 \nOutput stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 Output stdout 1 \nOutput stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 Output stdout 2 \n\n\nOutput stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 Output stderr 0 \nOutput stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 Output stderr 1 \nOutput stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 Output stderr 2 \n\n\n\nWithout the filter, the standard and error outputs would have had their own scrollbars. Now, they share a single scrollbar.\nAdditional styles can be applied by targeting .cell-output-container with CSS, or by overriding the classes applied to the container div (see default-container-classes and output-container-classes).",
+    "crumbs": [
+      "Getting Started"
+    ]
+  }
+]
