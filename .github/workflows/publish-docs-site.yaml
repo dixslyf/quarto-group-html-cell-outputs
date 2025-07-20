@@ -14,8 +14,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Quarto
+        uses: yaxitech/nix-install-pkgs-action@v6
+        with:
+          packages: ".#quarto"
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
