@@ -1,5 +1,5 @@
 local wrap_default = true
-local container_classes = "cell-output-container"
+local default_container_classes = "cell-output-container"
 
 function Meta(meta)
    local apply_default_styles = true
@@ -8,12 +8,12 @@ function Meta(meta)
       local config = meta["wrap-cell-outputs"]
 
       -- Parse configuration.
-      if config["container-classes"] then
+      if config["default-container-classes"] then
          assert(
-            #config["container-classes"] == 1 and type(config["container-classes"][1].text) == "string",
-            "Malformed value for `container-classes`"
+            #config["default-container-classes"] == 1 and type(config["default-container-classes"][1].text) == "string",
+            "Malformed value for `default-container-classes`"
          )
-         container_classes = config["container-classes"][1].text
+         default_container_classes = config["default-container-classes"][1].text
       end
 
       if config["wrap-default"] ~= nil then
@@ -51,6 +51,12 @@ function Div(el)
 
    if not should_wrap then
       return el
+   end
+
+   -- Determine what classes to apply.
+   local container_classes = default_container_classes
+   if el.attributes["output-container-classes"] then
+      container_classes = el.attributes["output-container-classes"]
    end
 
    local cell_code = nil
