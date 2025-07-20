@@ -1,6 +1,6 @@
 # `group-html-cell-outputs` Quarto Extension
 
-The `group-html-cell-outputs` Quarto extension adds a filter to group the outputs of a cell
+The `group-html-cell-outputs` [Quarto](https://quarto.org/) extension adds a filter to group the outputs of a cell
 by wrapping them with a parent `div` when rendering to HTML.
 
 ## Motivation
