@@ -2,6 +2,9 @@
 title: "Wrap Cell Outputs Example"
 filters:
   - wrap-cell-outputs
+format:
+  html:
+    css: example-styles.css
 ---
 
 ## About
@@ -41,6 +44,13 @@ for i in range(0, 10):
     print(f"Output stderr {i} " * 10, file=sys.stderr)
 ```
 
+Additional styles can be applied by targetting `.cell-output-container` with CSS,
+or by overriding the classes applied to the container `div`
+(see `default-container-classes` in [_Document-Level Options_](#document-level-options)
+and `output-container-classes` in [_Per-Cell Options_](#per-cell-options)).
+
+## Options
+
 ### Document-Level Options
 
 All document-level options are specified under the `wrap-cell-outputs` key.
@@ -52,7 +62,7 @@ wrap-cell-outputs:
   #
   # Multiple classes should be specified as a single string with the classes delimited by spaces,
   # the same way classes are specified in HTML.
-  - container-classes: "cell-output-container"
+  - default-container-classes: "cell-output-container"
 
   # Whether to apply default styles for the `cell-output-container`.
   #
@@ -77,6 +87,8 @@ To control whether the filter is applied to a specific cell,
 use the `wrap-outputs` option.
 For example, to disable the filter for a cell (when `wrap-default: true` is specified in the document-level options):
 
+<!-- Unfortunately, seems like Quarto's `echo: fenced` is bugged and removes keys it doesn't know,
+so we have to resort to this duplication. -->
 ````markdown
 ```{{python}}
 #| wrap-outputs: false
@@ -102,3 +114,35 @@ for i in range(0, 10):
 for i in range(0, 10):
     print(f"Output stderr {i} " * 10, file=sys.stderr)
 ```
+
+You can also configure the classes applied to the output container with `output-container-classes`.
+In the example below, we apply the `bg-blue` class (defined in a separate CSS file and linked to this page)
+to the output container.
+
+````markdown
+```{{python}}
+#| output-container-classes: "bg-blue"
+
+import sys
+
+for i in range(0, 10):
+    print(f"Output stdout {i} " * 10)
+
+for i in range(0, 10):
+    print(f"Output stderr {i} " * 10, file=sys.stderr)
+```
+````
+```{python}
+#| echo: false
+#| output-container-classes: "bg-blue"
+
+import sys
+
+for i in range(0, 10):
+    print(f"Output stdout {i} " * 10)
+
+for i in range(0, 10):
+    print(f"Output stderr {i} " * 10, file=sys.stderr)
+```
+
+Note that `output-container-classes` overrides the default classes specified in the document-level `default-container-classes`.
