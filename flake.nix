@@ -9,11 +9,14 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        quarto = pkgs.quartoMinimal.override {
+          inherit (pkgs) python3;
+        };
       in
       {
         devShells = {
           default = pkgs.mkShell {
-            packages = with pkgs; [
+            packages = [
               quarto
             ];
           };
@@ -21,7 +24,7 @@
 
         # Re-export Quarto for use in CI.
         packages = {
-          inherit (pkgs) quarto;
+          inherit quarto;
         };
       }
     );
