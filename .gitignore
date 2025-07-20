@@ -1,0 +1,5 @@
+.direnv
+
+*.html
+*.pdf
+*_files/
