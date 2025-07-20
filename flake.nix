@@ -18,6 +18,11 @@
             ];
           };
         };
+
+        # Re-export Quarto for use in CI.
+        packages = {
+          inherit (pkgs) quarto;
+        };
       }
     );
 }
