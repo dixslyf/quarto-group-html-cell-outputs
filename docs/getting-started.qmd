@@ -47,5 +47,5 @@ Now, they share a single scrollbar.
 
 Additional styles can be applied by targeting `.cell-output-container` with CSS,
 or by overriding the classes applied to the container `div`
-(see `default-container-classes` in [_Document-Level Options_](/configuration.html#document-level-options)
-and `output-container-classes` in [_Per-Cell Options_](/configuration.html#per-cell-options))
+(see [`default-container-classes`](/configuration.html#default-container-classes)
+and [`output-container-classes`](/configuration.html#output-container-classes)).

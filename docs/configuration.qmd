@@ -5,44 +5,62 @@ title: "Configuration"
 ## Document-Level Options
 
 All document-level options are specified under the `group-html-cell-outputs` key.
-The defaults are shown below with a description for each option:
+The defaults are shown below:
 
 ```yaml
 group-html-cell-outputs:
-  # The class(es) to apply to the container divs.
-  #
-  # Multiple classes should be specified as a single string with
-  # the classes delimited by spaces, the same way classes are
-  # specified in HTML.
   - default-container-classes: "cell-output-container"
-
-  # Whether to apply default styles for the `cell-output-container`.
-  #
-  # The default styles add padding and margins, show a scrollbar
-  # for overflowing content and undo some of Quarto's default styles
-  # for cell output `pre` and `code` elements so that the output
-  # container looks a like a single block.
   - apply-default-styles: true
-
-  # Whether to group cell outputs by default.
-  #
-  # Setting this to `true` makes the filter "opt-out"; i.e., all
-  # cells have their outputs grouped — if you want to exclude a
-  # cell's outputs from the filter, you need to specify
-  # `group-outputs: false` in its per-cell options.
-  #
-  # Setting this to `false` makes the filter "opt-in"; i.e., cell
-  # outputs are not grouped by default and you need to specify
-  # `group-outputs: true` if you want to group a specific
-  # cell's outputs.
   - group-by-default: true
 ```
 
+### `default-container-classes`
+
+_Type:_ `string`
+
+The class(es) to apply to the container divs.
+  
+Multiple classes should be specified as a single string
+with the classes delimited by spaces,
+the same way classes are specified in HTML.
+
+### `apply-default-styles`
+
+_Type:_ `boolean`
+
+Whether to apply default styles for the `cell-output-container`.
+
+The default styles add padding and margins,
+show a scrollbar for overflowing content
+and undo some of Quarto's default styles
+for cell output `pre` and `code` elements
+so that the output container looks a like a single block.
+
+### `group-by-default`
+
+_Type:_ `boolean`
+
+Whether to group cell outputs by default.
+
+Setting this to `true` makes the filter "opt-out";
+i.e., all cells have their outputs grouped by default
+— if you want to exclude a cell's outputs from the filter,
+you need to specify `group-outputs: false` in its per-cell options.
+
+Setting this to `false` makes the filter "opt-in";
+i.e., cell outputs are not grouped by default
+and you need to specify `group-outputs: true`
+if you want to group a specific cell's outputs.
+
 ## Per-Cell Options
 
-To control whether the filter is applied to a specific cell,
-use the `group-outputs` option.
-For example, to disable the filter for a cell (when `group-by-default: true` is specified in the document-level options):
+### `group-outputs`
+
+_Type:_ `boolean`
+
+Whether the cell's outputs should be grouped.
+
+For example, to disable the filter for a cell (when [`group-by-default: true`](#group-by-default) is specified in the document-level options):
 
 <!-- Unfortunately, seems like Quarto's `echo: fenced` is bugged and removes keys it doesn't know,
 so we have to resort to this duplication. -->
@@ -72,10 +90,23 @@ for i in range(0, 3):
     print(f"Output stderr {i} " * 10, file=sys.stderr)
 ```
 
-You can also configure the classes applied to the output container with `output-container-classes`.
-In the example below, we apply the `custom-output-container` class (defined in a separate CSS file and linked to this page),
+### `output-container-classes`
+
+_Type:_ `string`
+
+The classes to apply to the output container.
+Overrides the document-level [`default-container-classes`](#default-container-classes) option.
+
+In the example below, we apply the `custom-output-container` class,
 which adds a border,
 to the output container.
+
+```css
+/* styles.css */
+.custom-output-container {
+    border: 2px solid;
+}
+```
 
 ````markdown
 ```{{python}}
