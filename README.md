@@ -43,4 +43,19 @@ for more information.
 
 ## Usage
 
-Please refer to the [documentation](https://dixslyf.github.io/quarto-group-html-cell-outputs/).
+In your `_quarto.yml` file or document's YAML header, add `group-html-cell-outputs` to `filters`:
+
+```yaml
+filters:
+  - group-html-cell-outputs
+```
+
+When this filter is used with the default configuration,
+all outputs of a cell are automatically wrapped in a shared parent `div`
+with the `cell-output-container` class.
+Some default styles are applied to `cell-output-container` to
+adjust padding and prevent each child output element from having its own scrollbar
+so that the output container looks like a single output block.
+
+For additional configuration,
+please refer to the [documentation](https://dixslyf.github.io/quarto-group-html-cell-outputs/).
